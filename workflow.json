@@ -1,1019 +1,1019 @@
-﻿{
-    "settings":  {
-                     "executionOrder":  "v1",
-                     "timezone":  "Asia/Almaty",
-                     "saveDataErrorExecution":  "all",
-                     "saveDataSuccessExecution":  "all",
-                     "callerPolicy":  "workflowsFromSameOwner",
-                     "availableInMCP":  false,
-                     "timeSavedMode":  "fixed",
-                     "binaryMode":  "separate"
-                 },
-    "tags":  [
-
-             ],
-    "name":  "Restaurant Bot v2",
-    "connections":  {
-                        "WhatsApp Trigger":  {
-                                                 "main":  [
-                                                              [
-                                                                  {
-                                                                      "node":  "Extract Message",
-                                                                      "type":  "main",
-                                                                      "index":  0
-                                                                  }
-                                                              ]
-                                                          ]
-                                             },
-                        "Extract Message":  {
-                                                "main":  [
-                                                             [
-                                                                 {
-                                                                     "node":  "Static Router",
-                                                                     "type":  "main",
-                                                                     "index":  0
-                                                                 }
-                                                             ]
-                                                         ]
-                                            },
-                        "Static Router":  {
-                                              "main":  [
-                                                           [
-                                                               {
-                                                                   "node":  "IF Static",
-                                                                   "type":  "main",
-                                                                   "index":  0
-                                                               }
-                                                           ]
-                                                       ]
-                                          },
-                        "IF Static":  {
-                                          "main":  [
-                                                       [
-                                                           {
-                                                               "node":  "Parse Response",
-                                                               "type":  "main",
-                                                               "index":  0
-                                                           }
-                                                       ],
-                                                       [
-                                                           {
-                                                               "node":  "AI Agent",
-                                                               "type":  "main",
-                                                               "index":  0
-                                                           }
-                                                       ]
-                                                   ]
-                                      },
-                        "OpenAI Chat Model":  {
-                                                  "ai_languageModel":  [
-                                                                           [
-                                                                               {
-                                                                                   "node":  "AI Agent",
-                                                                                   "type":  "ai_languageModel",
-                                                                                   "index":  0
-                                                                               }
-                                                                           ]
-                                                                       ]
-                                              },
-                        "Window Memory":  {
-                                              "ai_memory":  [
-                                                                [
-                                                                    {
-                                                                        "node":  "AI Agent",
-                                                                        "type":  "ai_memory",
-                                                                        "index":  0
-                                                                    }
-                                                                ]
-                                                            ]
-                                          },
-                        "Pinecone Vector Store":  {
-                                                      "ai_tool":  [
-                                                                      [
-                                                                          {
-                                                                              "node":  "AI Agent",
-                                                                              "type":  "ai_tool",
-                                                                              "index":  0
-                                                                          }
-                                                                      ]
-                                                                  ]
-                                                  },
-                        "Embeddings OpenAI":  {
-                                                  "ai_embedding":  [
-                                                                       [
-                                                                           {
-                                                                               "node":  "Pinecone Vector Store",
-                                                                               "type":  "ai_embedding",
-                                                                               "index":  0
-                                                                           }
-                                                                       ]
-                                                                   ]
-                                              },
-                        "AI Agent":  {
-                                         "main":  [
-                                                      [
-                                                          {
-                                                              "node":  "Parse Response",
-                                                              "type":  "main",
-                                                              "index":  0
-                                                          }
-                                                      ]
-                                                  ]
-                                     },
-                        "Parse Response":  {
-                                               "main":  [
-                                                            [
-                                                                {
-                                                                    "node":  "Send WhatsApp",
-                                                                    "type":  "main",
-                                                                    "index":  0
-                                                                },
-                                                                {
-                                                                    "node":  "Save Customer",
-                                                                    "type":  "main",
-                                                                    "index":  0
-                                                                },
-                                                                {
-                                                                    "node":  "Check Save Data",
-                                                                    "type":  "main",
-                                                                    "index":  0
-                                                                }
-                                                            ]
-                                                        ]
-                                           },
-                        "Check Save Data":  {
-                                                "main":  [
-                                                             [
-                                                                 {
-                                                                     "node":  "Route by Type",
-                                                                     "type":  "main",
-                                                                     "index":  0
-                                                                 }
-                                                             ],
-                                                             [
-
-                                                             ]
-                                                         ]
-                                            },
-                        "Route by Type":  {
-                                              "main":  [
-                                                           [
-                                                               {
-                                                                   "node":  "Save Reservation",
-                                                                   "type":  "main",
-                                                                   "index":  0
-                                                               }
-                                                           ],
-                                                           [
-                                                               {
-                                                                   "node":  "Save Order",
-                                                                   "type":  "main",
-                                                                   "index":  0
-                                                               }
-                                                           ]
-                                                       ]
-                                          },
-                        "Send WhatsApp":  {
-                                              "main":  [
-                                                           [
-                                                               {
-                                                                   "node":  "Delay Send Buttons",
-                                                                   "type":  "main",
-                                                                   "index":  0
-                                                               }
-                                                           ]
-                                                       ]
-                                          },
-                        "Delay Send Buttons":  {
-                                                   "main":  [
-                                                                [
-                                                                    {
-                                                                        "node":  "Send Menu Buttons",
-                                                                        "type":  "main",
-                                                                        "index":  0
-                                                                    }
-                                                                ]
-                                                            ]
-                                               }
-                    },
-    "nodes":  [
-                  {
-                      "parameters":  {
-                                         "updates":  [
-                                                         "messages"
-                                                     ],
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "id":  "a1000001-0000-0000-0000-000000000001",
-                      "name":  "WhatsApp Trigger",
-                      "type":  "n8n-nodes-base.whatsAppTrigger",
-                      "typeVersion":  1,
-                      "position":  [
-                                       -1744,
-                                       144
-                                   ],
-                      "webhookId":  "restaurant-bot-v2-wa",
-                      "credentials":  null
-                  },
-                  {
-                      "parameters":  {
-                                         "jsCode":  "const entry = $input.first().json;\n\nif (!entry.messages || entry.messages.length === 0) {\n  return [];\n}\n\nconst msg = entry.messages[0];\nconst contact = entry.contacts?.[0];\n\nlet messageText = \u0027\u0027;\nlet messageType = msg.type;\n\nif (msg.type === \u0027text\u0027) {\n  messageText = msg.text.body;\n} else if (msg.type === \u0027interactive\u0027) {\n  if (msg.interactive.type === \u0027button_reply\u0027) {\n    messageText = `[BUTTON:${msg.interactive.button_reply.id}] ${msg.interactive.button_reply.title}`;\n  } else if (msg.interactive.type === \u0027list_reply\u0027) {\n    messageText = `[LIST:${msg.interactive.list_reply.id}] ${msg.interactive.list_reply.title}`;\n  }\n} else if (msg.type === \u0027image\u0027 || msg.type === \u0027audio\u0027 || msg.type === \u0027video\u0027 || msg.type === \u0027document\u0027) {\n  messageText = \u0027[Media file - please send text message]\u0027;\n}\n\nif (!messageText) {\n  return [];\n}\n\nreturn [{\n  json: {\n    customer_phone: msg.from,\n    customer_name: contact?.profile?.name || \u0027Customer\u0027,\n    message_text: messageText,\n    message_type: messageType,\n    phone_number_id: entry.metadata.phone_number_id\n  }\n}];"
-                                     },
-                      "id":  "a1000002-0000-0000-0000-000000000002",
-                      "name":  "Extract Message",
-                      "type":  "n8n-nodes-base.code",
-                      "typeVersion":  2,
-                      "position":  [
-                                       -1344,
-                                       112
-                                   ]
-                  },
-                  {
-                      "parameters":  {
-                                         "jsCode":  "const msg = $input.first().json;\nconst text = (msg.message_text || \u0027\u0027).trim();\nconst lower = text.toLowerCase();\n\nconst MENU_IMAGE_URL = \u0027https://drive.google.com/uc?export=view\u0026id=16-FMyCT20h2azFqlbEqaYxe7E2Dkp2bs\u0027;\nconst MAIN_BUTTONS = [\n  { id: \u0027menu\u0027, title: \u0027Меню\u0027 },\n  { id: \u0027reserve\u0027, title: \u0027Забронировать\u0027 },\n  { id: \u0027order\u0027, title: \u0027Заказать\u0027 }\n];\n\nfunction makeOutput(reply, buttons, intent, image_url) {\n  const obj = { reply, buttons, intent: intent || \u0027general\u0027, save_data: null };\n  if (image_url) obj.image_url = image_url;\n  return JSON.stringify(obj);\n}\n\nlet output = null;\nconst cleaned = lower.replace(/[\\s!.,?]+$/g, \u0027\u0027);\n\n// 1. GREETINGS\nconst greetings = [\n  \u0027привет\u0027, \u0027здравствуйте\u0027, \u0027здравствуй\u0027,\n  \u0027добрый день\u0027, \u0027добрый\u0027, \u0027доброе утро\u0027, \u0027добрый вечер\u0027,\n  \u0027доброго дня\u0027, \u0027доброго утра\u0027, \u0027доброго вечера\u0027,\n  \u0027hi\u0027, \u0027hello\u0027, \u0027hey\u0027, \u0027start\u0027,\n  \u0027старт\u0027, \u0027начать\u0027, \u0027хай\u0027, \u0027ку\u0027,\n  \u0027салам\u0027, \u0027сәлем\u0027, \u0027сәлеметсіз бе\u0027\n];\n\nif (greetings.includes(cleaned)) {\n  output = makeOutput(\n    \u0027Добро пожаловать в ресторан West and East🏩!\\n\\nЯ помогу вам с меню, заказом или бронированием столика.\\n\\nВыберите действие:\u0027,\n    MAIN_BUTTONS,\n    \u0027greeting\u0027\n  );\n}\n// 2. MENU - button OR text\nelse if (text.startsWith(\u0027[BUTTON:menu]\u0027) || cleaned === \u0027меню\u0027) {\n  output = makeOutput(\n    \u0027Полное меню ресторана West and East:\u0027,\n    [{ id: \u0027order\u0027, title: \u0027Заказать\u0027 }, { id: \u0027reserve\u0027, title: \u0027Забронировать\u0027 }],\n    \u0027menu\u0027,\n    MENU_IMAGE_URL\n  );\n}\n// 3. CANCEL\nelse if (text.startsWith(\u0027[BUTTON:cancel]\u0027)) {\n  output = makeOutput(\u0027Действие отменено. Чем могу помочь?\u0027, MAIN_BUTTONS, \u0027farewell\u0027);\n}\n// 4. HELP\nelse if (text.startsWith(\u0027[BUTTON:help]\u0027)) {\n  output = makeOutput(\n    \u0027Я умею:\\n- Показывать меню\\n- Принять заказ\\n- Забронировать столик\u0027,\n    MAIN_BUTTONS,\n    \u0027question\u0027\n  );\n}\n// 5. Everything else -\u003e AI Agent\n\nreturn [{\n  json: {\n    ...msg,\n    output: output,\n    has_static: output !== null\n  }\n}];"
-                                     },
-                      "id":  "a1000010-0000-0000-0000-000000000010",
-                      "name":  "Static Router",
-                      "type":  "n8n-nodes-base.code",
-                      "typeVersion":  2,
-                      "position":  [
-                                       -1120,
-                                       336
-                                   ]
-                  },
-                  {
-                      "parameters":  {
-                                         "conditions":  {
-                                                            "options":  {
-                                                                            "version":  3,
-                                                                            "leftValue":  "",
-                                                                            "caseSensitive":  true,
-                                                                            "typeValidation":  "strict"
-                                                                        },
-                                                            "conditions":  [
-                                                                               {
-                                                                                   "id":  "cond-static",
-                                                                                   "leftValue":  "={{ $json.has_static }}",
-                                                                                   "operator":  {
-                                                                                                    "type":  "boolean",
-                                                                                                    "operation":  "true",
-                                                                                                    "singleValue":  true
-                                                                                                }
-                                                                               }
-                                                                           ],
-                                                            "combinator":  "and"
-                                                        },
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "id":  "a1000011-0000-0000-0000-000000000011",
-                      "name":  "IF Static",
-                      "type":  "n8n-nodes-base.if",
-                      "typeVersion":  2.3,
-                      "position":  [
-                                       -1056,
-                                       560
-                                   ]
-                  },
-                  {
-                      "parameters":  {
-                                         "promptType":  "define",
-                                         "text":  "={{ $json.message_text }}\nCustomer: {{ $json.customer_name }} ({{ $json.customer_phone }})",
-                                         "options":  {
-                                                         "systemMessage":  "=Ты — ассистент ресторана West and East в WhatsApp. Отвечай ТОЛЬКО валидным JSON:\n{\"reply\":\"текст\",\"intent\":\"...\",\"buttons\":[...],\"save_data\":null}\n\nВозможные intent: greeting, menu, reservation, order, question, confirmation, farewell\nПравила кнопок: макс 3 кнопки, title макс 20 символов. Когда ждёшь текстовый ввод — buttons: [] (пустой массив).\n\n=== ПРОЦЕСС ЗАКАЗА ЕДЫ (intent: order) ===\n\nШАГ 1. Клиент назвал блюда.\n→ Найди цены в базе знаний.\n→ Клиент может заказать НЕСКОЛЬКО РАЗНЫХ блюд одновременно! Например: \"2 шашлыка из курицы и 2 из баранины\" — это ВАЛИДНЫЙ заказ из двух позиций. Прими ВСЕ позиции сразу.\n→ Если клиент указал и блюда И количество — переходи сразу к Шагу 2 с подтверждением.\n→ Если клиент назвал блюда БЕЗ количества — спроси количество для каждого блюда.\n→ Если неясно какой вариант блюда (например \"шашлык\" без уточнения) — спроси какой именно.\n→ buttons: []\n\nШАГ 2. Состав и количество известны.\n→ Подтверди ВЕСЬ состав заказа с ценами:\n  Пример: \"Ваш заказ:\\n- Шашлык из курицы x2 = 4980 ₸\\n- Шашлык из баранины x2 = 6380 ₸\\nИтого: 11360 ₸\"\n→ Спроси способ получения.\n→ buttons: [{\"id\":\"delivery\",\"title\":\"Доставка\"},{\"id\":\"takeout\",\"title\":\"Самовывоз\"}]\n\nШАГ 3. Выбран способ получения.\n→ Для доставки запроси: имя, телефон, адрес доставки.\n→ Для самовывоза запроси: имя, телефон.\n→ buttons: []\n\nШАГ 4. Клиент прислал данные (имя, телефон, адрес).\n→ ОБЯЗАТЕЛЬНО покажи ПОЛНУЮ СВОДКУ ЗАКАЗА:\n  - Состав заказа (все позиции с количеством)\n  - Итоговая сумма\n  - Способ получения\n  - Имя, телефон, адрес (для доставки)\n→ ОБЯЗАТЕЛЬНО кнопки: [{\"id\":\"confirm\",\"title\":\"Подтвердить\"},{\"id\":\"edit\",\"title\":\"Изменить\"},{\"id\":\"cancel\",\"title\":\"Отменить\"}]\n→ save_data: null (ещё НЕ сохранять!)\n\n⚠️ КРИТИЧЕСКИ ВАЖНО: НИКОГДА не пропускай Шаг 4! После получения данных клиента ВСЕГДА показывай сводку с кнопками Подтвердить/Изменить/Отменить. ЗАПРЕЩЕНО сразу подтверждать заказ!\n\nШАГ 5. [BUTTON:confirm] — Заказ подтверждён!\n→ reply: \"Спасибо! Ваш заказ оформлен...\"\n→ buttons: [{\"id\":\"menu\",\"title\":\"Меню\"},{\"id\":\"help\",\"title\":\"Помощь\"}]\n→ save_data: {\"type\":\"order\",\"order_type\":\"delivery/takeout\",\"items\":\"все позиции с количеством\",\"total\":\"сумма\",\"address\":\"адрес\",\"phone\":\"телефон\",\"name\":\"имя\",\"comment\":\"\"}\n\n[BUTTON:edit] → Спроси что изменить. buttons: []\n\n=== ПРОЦЕСС БРОНИРОВАНИЯ (intent: reservation) ===\n\nШАГ 1. Клиент хочет забронировать.\n→ Запроси ВСЕ ТРИ параметра: дату, время И количество гостей.\n→ Пример: \"На какую дату, время и сколько гостей вы хотите забронировать столик?\"\n→ buttons: []\n\nШАГ 2. Если клиент указал не все параметры — допроси недостающие.\n→ Например, если указал только дату — спроси время и количество гостей.\n→ Если указал дату и гостей — спроси время.\n→ ОБЯЗАТЕЛЬНО получи все три: дата + время + количество гостей.\n→ buttons: []\n\nШАГ 3. Все параметры брони получены.\n→ Запроси имя и телефон.\n→ buttons: []\n\nШАГ 4. Все данные получены.\n→ ОБЯЗАТЕЛЬНО покажи сводку брони (дата, время, гости, имя, телефон).\n→ buttons: [{\"id\":\"confirm\",\"title\":\"Подтвердить\"},{\"id\":\"edit\",\"title\":\"Изменить\"},{\"id\":\"cancel\",\"title\":\"Отменить\"}]\n→ save_data: null\n\nШАГ 5. [BUTTON:confirm] → Бронь подтверждена!\n→ buttons: [{\"id\":\"menu\",\"title\":\"Меню\"},{\"id\":\"help\",\"title\":\"Помощь\"}]\n→ save_data: {\"type\":\"reservation\",\"date\":\"ДД.ММ.ГГГГ\",\"time\":\"ЧЧ:ММ\",\"guests\":число,\"name\":\"имя\",\"phone\":\"телефон\",\"comment\":\"\"}\n\n=== ОБЩИЕ ПРАВИЛА ===\n\n- Если клиент пишет ЛЮБОЕ название еды — это ЗАКАЗ. Не спрашивай \"хотите заказать или забронировать\".\n- save_data заполняй ТОЛЬКО после [BUTTON:confirm].\n- Кнопки Подтвердить/Изменить/Отменить — ТОЛЬКО в сводке заказа/брони.\n- НЕ ПУТАЙ: еда = ЗАКАЗ (type:order). Столик/дата визита = БРОНЬ (type:reservation).\n- МЕНЮ: используй базу знаний, дай ссылку: https://drive.google.com/file/d/17ekxvezvIRGV-41gz4M3G5U401vy--Qn/view\n- Используй базу знаний для цен, меню, адреса, часов работы.\n- Будь кратким и дружелюбным."
-                                                     }
-                                     },
-                      "id":  "a1000003-0000-0000-0000-000000000003",
-                      "name":  "AI Agent",
-                      "type":  "@n8n/n8n-nodes-langchain.agent",
-                      "typeVersion":  3.1,
-                      "position":  [
-                                       -816,
-                                       16
-                                   ]
-                  },
-                  {
-                      "parameters":  {
-                                         "model":  {
-                                                       "__rl":  true,
-                                                       "value":  "gpt-4.1-mini",
-                                                       "mode":  "list",
-                                                       "cachedResultName":  "gpt-4.1-mini"
-                                                   },
-                                         "builtInTools":  {
-
-                                                          },
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "id":  "a1000004-0000-0000-0000-000000000004",
-                      "name":  "OpenAI Chat Model",
-                      "type":  "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-                      "typeVersion":  1.3,
-                      "position":  [
-                                       -944,
-                                       192
-                                   ],
-                      "credentials":  null
-                  },
-                  {
-                      "parameters":  {
-                                         "sessionIdType":  "customKey",
-                                         "sessionKey":  "={{ $json.customer_phone }}",
-                                         "contextWindowLength":  20
-                                     },
-                      "id":  "a1000005-0000-0000-0000-000000000005",
-                      "name":  "Window Memory",
-                      "type":  "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-                      "typeVersion":  1.3,
-                      "position":  [
-                                       -784,
-                                       320
-                                   ]
-                  },
-                  {
-                      "parameters":  {
-                                         "mode":  "retrieve-as-tool",
-                                         "toolDescription":  "Restaurant knowledge base with menu, prices, hours, location info",
-                                         "pineconeIndex":  {
-                                                               "__rl":  true,
-                                                               "value":  "restaurant-bot3",
-                                                               "mode":  "list",
-                                                               "cachedResultName":  "restaurant-bot3"
-                                                           },
-                                         "options":  {
-                                                         "pineconeNamespace":  "restaurant_bot3"
-                                                     }
-                                     },
-                      "id":  "a1000006-0000-0000-0000-000000000006",
-                      "name":  "Pinecone Vector Store",
-                      "type":  "@n8n/n8n-nodes-langchain.vectorStorePinecone",
-                      "typeVersion":  1.3,
-                      "position":  [
-                                       -608,
-                                       560
-                                   ],
-                      "credentials":  null
-                  },
-                  {
-                      "parameters":  {
-                                         "options":  {
-                                                         "dimensions":  512
-                                                     }
-                                     },
-                      "id":  "a1000007-0000-0000-0000-000000000007",
-                      "name":  "Embeddings OpenAI",
-                      "type":  "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
-                      "typeVersion":  1.2,
-                      "position":  [
-                                       -608,
-                                       768
-                                   ],
-                      "credentials":  null
-                  },
-                  {
-                      "parameters":  {
-                                         "jsCode":  "const raw = $input.first().json.output;\nconst customerPhone = $(\u0027Extract Message\u0027).first().json.customer_phone;\nconst customerName = $(\u0027Extract Message\u0027).first().json.customer_name;\nconst phoneNumberId = $(\u0027Extract Message\u0027).first().json.phone_number_id;\n\nconst ALLOWED_RECIPIENT = \u0027+7 8 (775) 300 8495\u0027;\n\nlet data;\ntry {\n  let str = typeof raw === \u0027string\u0027 ? raw : JSON.stringify(raw);\n  const jsonMatch = str.match(/\\{[\\s\\S]*\\}/);\n  if (jsonMatch) {\n    data = JSON.parse(jsonMatch[0]);\n  } else {\n    data = { reply: str, intent: \u0027general\u0027, buttons: [], save_data: null };\n  }\n  if (data.output \u0026\u0026 typeof data.output === \u0027object\u0027) {\n    data = data.output;\n  } else if (data.output \u0026\u0026 typeof data.output === \u0027string\u0027) {\n    try { data = JSON.parse(data.output); } catch(e) {}\n  }\n} catch(e) {\n  data = {\n    reply: String(raw || \u0027Извините, произошла ошибка.\u0027),\n    intent: \u0027general\u0027,\n    buttons: [],\n    save_data: null\n  };\n}\n\ndata.reply = data.reply || \u0027Чем могу помочь?\u0027;\ndata.intent = data.intent || \u0027general\u0027;\ndata.buttons = Array.isArray(data.buttons) ? data.buttons : [];\ndata.save_data = data.save_data || null;\n\nconst validButtons = data.buttons\n  .filter(b =\u003e b \u0026\u0026 b.id \u0026\u0026 b.title)\n  .slice(0, 3);\n\nconst baseFields = {\n  phone_number_id: phoneNumberId,\n  intent: data.intent,\n  save_data: data.save_data,\n  has_save_data: !!data.save_data,\n  customer_phone: customerPhone,\n  customer_name: customerName\n};\n\n// If image_url: single item with image payload + buttons stored separately\nif (data.image_url) {\n  const imagePayload = {\n    messaging_product: \u0027whatsapp\u0027,\n    to: ALLOWED_RECIPIENT,\n    type: \u0027image\u0027,\n    image: {\n      link: data.image_url,\n      caption: data.reply.substring(0, 1024)\n    }\n  };\n\n  let buttonsPayload = null;\n  if (validButtons.length \u003e 0) {\n    buttonsPayload = {\n      messaging_product: \u0027whatsapp\u0027,\n      to: ALLOWED_RECIPIENT,\n      type: \u0027interactive\u0027,\n      interactive: {\n        type: \u0027button\u0027,\n        body: { text: \u0027Выберите:\u0027 },\n        action: {\n          buttons: validButtons.map(b =\u003e ({\n            type: \u0027reply\u0027,\n            reply: {\n              id: String(b.id).substring(0, 256),\n              title: String(b.title).substring(0, 20)\n            }\n          }))\n        }\n      }\n    };\n  }\n\n  return [{\n    json: {\n      wa_payload: imagePayload,\n      wa_buttons_payload: buttonsPayload,\n      ...baseFields\n    }\n  }];\n}\n\n// Standard flow: text or interactive\nconst payload = {\n  messaging_product: \u0027whatsapp\u0027,\n  to: ALLOWED_RECIPIENT,\n};\n\nif (validButtons.length \u003e 0) {\n  payload.type = \u0027interactive\u0027;\n  payload.interactive = {\n    type: \u0027button\u0027,\n    body: { text: data.reply.substring(0, 1024) },\n    action: {\n      buttons: validButtons.map(b =\u003e ({\n        type: \u0027reply\u0027,\n        reply: {\n          id: String(b.id).substring(0, 256),\n          title: String(b.title).substring(0, 20)\n        }\n      }))\n    }\n  };\n} else {\n  payload.type = \u0027text\u0027;\n  payload.text = { body: data.reply.substring(0, 4096) };\n}\n\nreturn [{\n  json: {\n    wa_payload: payload,\n    wa_buttons_payload: null,\n    ...baseFields\n  }\n}];\n"
-                                     },
-                      "id":  "a1000008-0000-0000-0000-000000000008",
-                      "name":  "Parse Response",
-                      "type":  "n8n-nodes-base.code",
-                      "typeVersion":  2,
-                      "position":  [
-                                       -208,
-                                       304
-                                   ],
-                      "alwaysOutputData":  true
-                  },
-                  {
-                      "parameters":  {
-                                         "method":  "POST",
-                                         "url":  "=https://graph.facebook.com/v21.0/{{ $json.phone_number_id }}/messages",
-                                         "authentication":  "predefinedCredentialType",
-                                         "nodeCredentialType":  "whatsAppApi",
-                                         "sendBody":  true,
-                                         "specifyBody":  "json",
-                                         "jsonBody":  "={{ JSON.stringify($json.wa_payload) }}",
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "id":  "a1000009-0000-0000-0000-000000000009",
-                      "name":  "Send WhatsApp",
-                      "type":  "n8n-nodes-base.httpRequest",
-                      "typeVersion":  4.3,
-                      "position":  [
-                                       160,
-                                       208
-                                   ],
-                      "credentials":  null
-                  },
-                  {
-                      "parameters":  {
-                                         "operation":  "append",
-                                         "documentId":  {
-                                                            "__rl":  true,
-                                                            "value":  "1nYOxId5VNgMARy09twTprGeT-7Mi8xlJBre232GCa5o",
-                                                            "mode":  "list",
-                                                            "cachedResultName":  "CRM"
-                                                        },
-                                         "sheetName":  {
-                                                           "__rl":  true,
-                                                           "value":  2070949257,
-                                                           "mode":  "list",
-                                                           "cachedResultName":  "Клиенты",
-                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/1nYOxId5VNgMARy09twTprGeT-7Mi8xlJBre232GCa5o/edit#gid=2070949257"
-                                                       },
-                                         "columns":  {
-                                                         "mappingMode":  "defineBelow",
-                                                         "value":  {
-                                                                       "Дата_создания":  "={{ $now.format(\u0027dd.MM.yyyy HH:mm\u0027) }}",
-                                                                       "Канал":  "whatsapp",
-                                                                       "ID_клиента":  "={{ $json.customer_phone }}",
-                                                                       "Имя_клиента":  "={{ $json.customer_name }}",
-                                                                       "Телефон":  "={{ $json.customer_phone }}"
-                                                                   },
-                                                         "matchingColumns":  [
-
-                                                                             ],
-                                                         "schema":  [
-                                                                        {
-                                                                            "id":  "Дата_создания",
-                                                                            "displayName":  "Дата_создания",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Канал",
-                                                                            "displayName":  "Канал",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "ID_клиента",
-                                                                            "displayName":  "ID_клиента",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Имя_клиента",
-                                                                            "displayName":  "Имя_клиента",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Телефон",
-                                                                            "displayName":  "Телефон",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Email",
-                                                                            "displayName":  "Email",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Последнее_сообщение",
-                                                                            "displayName":  "Последнее_сообщение",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true,
-                                                                            "removed":  false
-                                                                        },
-                                                                        {
-                                                                            "id":  "Последний_интент",
-                                                                            "displayName":  "Последний_интент",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true,
-                                                                            "removed":  false
-                                                                        },
-                                                                        {
-                                                                            "id":  "Последняя_активность",
-                                                                            "displayName":  "Последняя_активность",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true,
-                                                                            "removed":  false
-                                                                        },
-                                                                        {
-                                                                            "id":  "Теги",
-                                                                            "displayName":  "Теги",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true,
-                                                                            "removed":  false
-                                                                        }
-                                                                    ],
-                                                         "attemptToConvertTypes":  false,
-                                                         "convertFieldsToString":  false
-                                                     },
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "id":  "a100000a-0000-0000-0000-00000000000a",
-                      "name":  "Save Customer",
-                      "type":  "n8n-nodes-base.googleSheets",
-                      "typeVersion":  4.7,
-                      "position":  [
-                                       208,
-                                       512
-                                   ],
-                      "credentials":  null
-                  },
-                  {
-                      "parameters":  {
-                                         "conditions":  {
-                                                            "options":  {
-                                                                            "version":  3,
-                                                                            "leftValue":  "",
-                                                                            "caseSensitive":  true,
-                                                                            "typeValidation":  "strict"
-                                                                        },
-                                                            "conditions":  [
-                                                                               {
-                                                                                   "id":  "cond-save-check",
-                                                                                   "leftValue":  "={{ $json.has_save_data }}",
-                                                                                   "operator":  {
-                                                                                                    "type":  "boolean",
-                                                                                                    "operation":  "true",
-                                                                                                    "singleValue":  true
-                                                                                                }
-                                                                               }
-                                                                           ],
-                                                            "combinator":  "and"
-                                                        },
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "id":  "a100000b-0000-0000-0000-00000000000b",
-                      "name":  "Check Save Data",
-                      "type":  "n8n-nodes-base.if",
-                      "typeVersion":  2.3,
-                      "position":  [
-                                       608,
-                                       512
-                                   ]
-                  },
-                  {
-                      "parameters":  {
-                                         "rules":  {
-                                                       "values":  [
-                                                                      {
-                                                                          "conditions":  {
-                                                                                             "options":  {
-                                                                                                             "caseSensitive":  true,
-                                                                                                             "leftValue":  "",
-                                                                                                             "typeValidation":  "strict",
-                                                                                                             "version":  3
-                                                                                                         },
-                                                                                             "conditions":  [
-                                                                                                                {
-                                                                                                                    "id":  "cond-reservation",
-                                                                                                                    "leftValue":  "={{ $json.save_data.type }}",
-                                                                                                                    "rightValue":  "reservation",
-                                                                                                                    "operator":  {
-                                                                                                                                     "type":  "string",
-                                                                                                                                     "operation":  "equals"
-                                                                                                                                 }
-                                                                                                                }
-                                                                                                            ],
-                                                                                             "combinator":  "and"
-                                                                                         },
-                                                                          "renameOutput":  true,
-                                                                          "outputKey":  "Reservation"
-                                                                      },
-                                                                      {
-                                                                          "conditions":  {
-                                                                                             "options":  {
-                                                                                                             "caseSensitive":  true,
-                                                                                                             "leftValue":  "",
-                                                                                                             "typeValidation":  "strict",
-                                                                                                             "version":  3
-                                                                                                         },
-                                                                                             "conditions":  [
-                                                                                                                {
-                                                                                                                    "id":  "cond-order",
-                                                                                                                    "leftValue":  "={{ $json.save_data.type }}",
-                                                                                                                    "rightValue":  "order",
-                                                                                                                    "operator":  {
-                                                                                                                                     "type":  "string",
-                                                                                                                                     "operation":  "equals"
-                                                                                                                                 }
-                                                                                                                }
-                                                                                                            ],
-                                                                                             "combinator":  "and"
-                                                                                         },
-                                                                          "renameOutput":  true,
-                                                                          "outputKey":  "Order"
-                                                                      }
-                                                                  ]
-                                                   },
-                                         "options":  {
-                                                         "fallbackOutput":  "extra"
-                                                     }
-                                     },
-                      "id":  "a100000c-0000-0000-0000-00000000000c",
-                      "name":  "Route by Type",
-                      "type":  "n8n-nodes-base.switch",
-                      "typeVersion":  3.4,
-                      "position":  [
-                                       912,
-                                       512
-                                   ]
-                  },
-                  {
-                      "parameters":  {
-                                         "operation":  "append",
-                                         "documentId":  {
-                                                            "__rl":  true,
-                                                            "value":  "1nYOxId5VNgMARy09twTprGeT-7Mi8xlJBre232GCa5o",
-                                                            "mode":  "list",
-                                                            "cachedResultName":  "CRM"
-                                                        },
-                                         "sheetName":  {
-                                                           "__rl":  true,
-                                                           "value":  "gid=0",
-                                                           "mode":  "list",
-                                                           "cachedResultName":  "Брони",
-                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/1nYOxId5VNgMARy09twTprGeT-7Mi8xlJBre232GCa5o/edit#gid=0"
-                                                       },
-                                         "columns":  {
-                                                         "mappingMode":  "defineBelow",
-                                                         "value":  {
-                                                                       "Дата_создания":  "={{ $now.format(\u0027dd.MM.yyyy HH:mm\u0027) }}",
-                                                                       "ID_клиента":  "={{ $json.customer_phone }}",
-                                                                       "Имя_клиента":  "={{ $json.customer_name }}",
-                                                                       "Телефон":  "={{ $json.save_data.phone }}",
-                                                                       "Дата_брони":  "={{ $json.save_data.date }}",
-                                                                       "Время_брони":  "={{ $json.save_data.time }}",
-                                                                       "Кол_гостей":  "={{ $json.save_data.guests }}",
-                                                                       "Комментарий":  "={{ $json.save_data.comment }}",
-                                                                       "Статус":  "Новая"
-                                                                   },
-                                                         "matchingColumns":  [
-
-                                                                             ],
-                                                         "schema":  [
-                                                                        {
-                                                                            "id":  "Дата_создания",
-                                                                            "displayName":  "Дата_создания",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "ID_клиента",
-                                                                            "displayName":  "ID_клиента",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Имя_клиента",
-                                                                            "displayName":  "Имя_клиента",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Телефон",
-                                                                            "displayName":  "Телефон",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Email",
-                                                                            "displayName":  "Email",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true,
-                                                                            "removed":  false
-                                                                        },
-                                                                        {
-                                                                            "id":  "Дата_брони",
-                                                                            "displayName":  "Дата_брони",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Время_брони",
-                                                                            "displayName":  "Время_брони",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Кол_гостей",
-                                                                            "displayName":  "Кол_гостей",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Комментарий",
-                                                                            "displayName":  "Комментарий",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Статус",
-                                                                            "displayName":  "Статус",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Результат_проверки_стола",
-                                                                            "displayName":  "Результат_проверки_стола",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true,
-                                                                            "removed":  false
-                                                                        },
-                                                                        {
-                                                                            "id":  "Кратко_по_диалогу",
-                                                                            "displayName":  "Кратко_по_диалогу",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true,
-                                                                            "removed":  false
-                                                                        }
-                                                                    ],
-                                                         "attemptToConvertTypes":  false,
-                                                         "convertFieldsToString":  false
-                                                     },
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "id":  "a100000d-0000-0000-0000-00000000000d",
-                      "name":  "Save Reservation",
-                      "type":  "n8n-nodes-base.googleSheets",
-                      "typeVersion":  4.7,
-                      "position":  [
-                                       1200,
-                                       400
-                                   ],
-                      "credentials":  null
-                  },
-                  {
-                      "parameters":  {
-                                         "operation":  "append",
-                                         "documentId":  {
-                                                            "__rl":  true,
-                                                            "value":  "1nYOxId5VNgMARy09twTprGeT-7Mi8xlJBre232GCa5o",
-                                                            "mode":  "list",
-                                                            "cachedResultName":  "CRM"
-                                                        },
-                                         "sheetName":  {
-                                                           "__rl":  true,
-                                                           "value":  2130491302,
-                                                           "mode":  "list",
-                                                           "cachedResultName":  "Заказы",
-                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/1nYOxId5VNgMARy09twTprGeT-7Mi8xlJBre232GCa5o/edit#gid=2130491302"
-                                                       },
-                                         "columns":  {
-                                                         "mappingMode":  "defineBelow",
-                                                         "value":  {
-                                                                       "Дата_создания":  "={{ $now.format(\u0027dd.MM.yyyy HH:mm\u0027) }}",
-                                                                       "Тип_заказа":  "={{ $json.save_data.order_type }}",
-                                                                       "ID_клиента":  "={{ $json.customer_phone }}",
-                                                                       "Имя_клиента":  "={{ $json.customer_name }}",
-                                                                       "Телефон":  "={{ $json.save_data.phone }}",
-                                                                       "Состав_заказа":  "={{ $json.save_data.items }}",
-                                                                       "Сумма":  "={{ $json.save_data.total }}",
-                                                                       "Адрес_доставки":  "={{ $json.save_data.address }}",
-                                                                       "Статус":  "Новый",
-                                                                       "Комментарий":  "={{ $json.save_data.comment }}"
-                                                                   },
-                                                         "matchingColumns":  [
-
-                                                                             ],
-                                                         "schema":  [
-                                                                        {
-                                                                            "id":  "Дата_создания",
-                                                                            "displayName":  "Дата_создания",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Тип_заказа",
-                                                                            "displayName":  "Тип_заказа",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "ID_клиента",
-                                                                            "displayName":  "ID_клиента",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Имя_клиента",
-                                                                            "displayName":  "Имя_клиента",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Телефон",
-                                                                            "displayName":  "Телефон",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Email",
-                                                                            "displayName":  "Email",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true,
-                                                                            "removed":  false
-                                                                        },
-                                                                        {
-                                                                            "id":  "Состав_заказа",
-                                                                            "displayName":  "Состав_заказа",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Сумма",
-                                                                            "displayName":  "Сумма",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Адрес_доставки",
-                                                                            "displayName":  "Адрес_доставки",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Оплата",
-                                                                            "displayName":  "Оплата",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true,
-                                                                            "removed":  false
-                                                                        },
-                                                                        {
-                                                                            "id":  "Статус",
-                                                                            "displayName":  "Статус",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        },
-                                                                        {
-                                                                            "id":  "Комментарий",
-                                                                            "displayName":  "Комментарий",
-                                                                            "required":  false,
-                                                                            "defaultMatch":  false,
-                                                                            "display":  true,
-                                                                            "type":  "string",
-                                                                            "canBeUsedToMatch":  true
-                                                                        }
-                                                                    ],
-                                                         "attemptToConvertTypes":  false,
-                                                         "convertFieldsToString":  false
-                                                     },
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "id":  "a100000e-0000-0000-0000-00000000000e",
-                      "name":  "Save Order",
-                      "type":  "n8n-nodes-base.googleSheets",
-                      "typeVersion":  4.7,
-                      "position":  [
-                                       1200,
-                                       608
-                                   ],
-                      "credentials":  null
-                  },
-                  {
-                      "parameters":  {
-                                         "jsCode":  "const parseResponse = $(\u0027Parse Response\u0027).first().json;\nconst buttonsPayload = parseResponse.wa_buttons_payload;\n\nif (!buttonsPayload) {\n  return [];\n}\n\n// Wait 4 seconds for WhatsApp to deliver the image\nawait new Promise(resolve =\u003e setTimeout(resolve, 4000));\n\nreturn [{\n  json: {\n    wa_payload: buttonsPayload,\n    phone_number_id: parseResponse.phone_number_id\n  }\n}];\n"
-                                     },
-                      "id":  "a1000020-0000-0000-0000-000000000020",
-                      "name":  "Delay Send Buttons",
-                      "type":  "n8n-nodes-base.code",
-                      "typeVersion":  2,
-                      "position":  [
-                                       480,
-                                       208
-                                   ]
-                  },
-                  {
-                      "parameters":  {
-                                         "method":  "POST",
-                                         "url":  "=https://graph.facebook.com/v21.0/{{ $json.phone_number_id }}/messages",
-                                         "authentication":  "predefinedCredentialType",
-                                         "nodeCredentialType":  "whatsAppApi",
-                                         "sendBody":  true,
-                                         "specifyBody":  "json",
-                                         "jsonBody":  "={{ JSON.stringify($json.wa_payload) }}",
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "id":  "a1000021-0000-0000-0000-000000000021",
-                      "name":  "Send Menu Buttons",
-                      "type":  "n8n-nodes-base.httpRequest",
-                      "typeVersion":  4.3,
-                      "position":  [
-                                       784,
-                                       208
-                                   ],
-                      "credentials":  null
-                  }
-              ]
-}
+﻿{
+    "settings":  {
+                     "executionOrder":  "v1",
+                     "timezone":  "Asia/Almaty",
+                     "saveDataErrorExecution":  "all",
+                     "saveDataSuccessExecution":  "all",
+                     "callerPolicy":  "workflowsFromSameOwner",
+                     "availableInMCP":  false,
+                     "timeSavedMode":  "fixed",
+                     "binaryMode":  "separate"
+                 },
+    "tags":  [
+
+             ],
+    "name":  "Restaurant Bot v2",
+    "connections":  {
+                        "WhatsApp Trigger":  {
+                                                 "main":  [
+                                                              [
+                                                                  {
+                                                                      "node":  "Extract Message",
+                                                                      "type":  "main",
+                                                                      "index":  0
+                                                                  }
+                                                              ]
+                                                          ]
+                                             },
+                        "Extract Message":  {
+                                                "main":  [
+                                                             [
+                                                                 {
+                                                                     "node":  "Static Router",
+                                                                     "type":  "main",
+                                                                     "index":  0
+                                                                 }
+                                                             ]
+                                                         ]
+                                            },
+                        "Static Router":  {
+                                              "main":  [
+                                                           [
+                                                               {
+                                                                   "node":  "IF Static",
+                                                                   "type":  "main",
+                                                                   "index":  0
+                                                               }
+                                                           ]
+                                                       ]
+                                          },
+                        "IF Static":  {
+                                          "main":  [
+                                                       [
+                                                           {
+                                                               "node":  "Parse Response",
+                                                               "type":  "main",
+                                                               "index":  0
+                                                           }
+                                                       ],
+                                                       [
+                                                           {
+                                                               "node":  "AI Agent",
+                                                               "type":  "main",
+                                                               "index":  0
+                                                           }
+                                                       ]
+                                                   ]
+                                      },
+                        "OpenAI Chat Model":  {
+                                                  "ai_languageModel":  [
+                                                                           [
+                                                                               {
+                                                                                   "node":  "AI Agent",
+                                                                                   "type":  "ai_languageModel",
+                                                                                   "index":  0
+                                                                               }
+                                                                           ]
+                                                                       ]
+                                              },
+                        "Window Memory":  {
+                                              "ai_memory":  [
+                                                                [
+                                                                    {
+                                                                        "node":  "AI Agent",
+                                                                        "type":  "ai_memory",
+                                                                        "index":  0
+                                                                    }
+                                                                ]
+                                                            ]
+                                          },
+                        "Pinecone Vector Store":  {
+                                                      "ai_tool":  [
+                                                                      [
+                                                                          {
+                                                                              "node":  "AI Agent",
+                                                                              "type":  "ai_tool",
+                                                                              "index":  0
+                                                                          }
+                                                                      ]
+                                                                  ]
+                                                  },
+                        "Embeddings OpenAI":  {
+                                                  "ai_embedding":  [
+                                                                       [
+                                                                           {
+                                                                               "node":  "Pinecone Vector Store",
+                                                                               "type":  "ai_embedding",
+                                                                               "index":  0
+                                                                           }
+                                                                       ]
+                                                                   ]
+                                              },
+                        "AI Agent":  {
+                                         "main":  [
+                                                      [
+                                                          {
+                                                              "node":  "Parse Response",
+                                                              "type":  "main",
+                                                              "index":  0
+                                                          }
+                                                      ]
+                                                  ]
+                                     },
+                        "Parse Response":  {
+                                               "main":  [
+                                                            [
+                                                                {
+                                                                    "node":  "Send WhatsApp",
+                                                                    "type":  "main",
+                                                                    "index":  0
+                                                                },
+                                                                {
+                                                                    "node":  "Save Customer",
+                                                                    "type":  "main",
+                                                                    "index":  0
+                                                                },
+                                                                {
+                                                                    "node":  "Check Save Data",
+                                                                    "type":  "main",
+                                                                    "index":  0
+                                                                }
+                                                            ]
+                                                        ]
+                                           },
+                        "Check Save Data":  {
+                                                "main":  [
+                                                             [
+                                                                 {
+                                                                     "node":  "Route by Type",
+                                                                     "type":  "main",
+                                                                     "index":  0
+                                                                 }
+                                                             ],
+                                                             [
+
+                                                             ]
+                                                         ]
+                                            },
+                        "Route by Type":  {
+                                              "main":  [
+                                                           [
+                                                               {
+                                                                   "node":  "Save Reservation",
+                                                                   "type":  "main",
+                                                                   "index":  0
+                                                               }
+                                                           ],
+                                                           [
+                                                               {
+                                                                   "node":  "Save Order",
+                                                                   "type":  "main",
+                                                                   "index":  0
+                                                               }
+                                                           ]
+                                                       ]
+                                          },
+                        "Send WhatsApp":  {
+                                              "main":  [
+                                                           [
+                                                               {
+                                                                   "node":  "Delay Send Buttons",
+                                                                   "type":  "main",
+                                                                   "index":  0
+                                                               }
+                                                           ]
+                                                       ]
+                                          },
+                        "Delay Send Buttons":  {
+                                                   "main":  [
+                                                                [
+                                                                    {
+                                                                        "node":  "Send Menu Buttons",
+                                                                        "type":  "main",
+                                                                        "index":  0
+                                                                    }
+                                                                ]
+                                                            ]
+                                               }
+                    },
+    "nodes":  [
+                  {
+                      "parameters":  {
+                                         "updates":  [
+                                                         "messages"
+                                                     ],
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "a1000001-0000-0000-0000-000000000001",
+                      "name":  "WhatsApp Trigger",
+                      "type":  "n8n-nodes-base.whatsAppTrigger",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -1744,
+                                       144
+                                   ],
+                      "webhookId":  "restaurant-bot-v2-wa",
+                      "credentials":  null
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const entry = $input.first().json;\n\nif (!entry.messages || entry.messages.length === 0) {\n  return [];\n}\n\nconst msg = entry.messages[0];\nconst contact = entry.contacts?.[0];\n\nlet messageText = \u0027\u0027;\nlet messageType = msg.type;\n\nif (msg.type === \u0027text\u0027) {\n  messageText = msg.text.body;\n} else if (msg.type === \u0027interactive\u0027) {\n  if (msg.interactive.type === \u0027button_reply\u0027) {\n    messageText = `[BUTTON:${msg.interactive.button_reply.id}] ${msg.interactive.button_reply.title}`;\n  } else if (msg.interactive.type === \u0027list_reply\u0027) {\n    messageText = `[LIST:${msg.interactive.list_reply.id}] ${msg.interactive.list_reply.title}`;\n  }\n} else if (msg.type === \u0027image\u0027 || msg.type === \u0027audio\u0027 || msg.type === \u0027video\u0027 || msg.type === \u0027document\u0027) {\n  messageText = \u0027[Media file - please send text message]\u0027;\n}\n\nif (!messageText) {\n  return [];\n}\n\nreturn [{\n  json: {\n    customer_phone: msg.from,\n    customer_name: contact?.profile?.name || \u0027Customer\u0027,\n    message_text: messageText,\n    message_type: messageType,\n    phone_number_id: entry.metadata.phone_number_id\n  }\n}];"
+                                     },
+                      "id":  "a1000002-0000-0000-0000-000000000002",
+                      "name":  "Extract Message",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       -1344,
+                                       112
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const msg = $input.first().json;\nconst text = (msg.message_text || \u0027\u0027).trim();\nconst lower = text.toLowerCase();\n\nconst MENU_IMAGE_URL = \u0027https://drive.google.com/uc?export=view\u0026id=16-FMyCT20h2azFqlbEqaYxe7E2Dkp2bs\u0027;\nconst MAIN_BUTTONS = [\n  { id: \u0027menu\u0027, title: \u0027Меню\u0027 },\n  { id: \u0027reserve\u0027, title: \u0027Забронировать\u0027 },\n  { id: \u0027order\u0027, title: \u0027Заказать\u0027 }\n];\n\nfunction makeOutput(reply, buttons, intent, image_url) {\n  const obj = { reply, buttons, intent: intent || \u0027general\u0027, save_data: null };\n  if (image_url) obj.image_url = image_url;\n  return JSON.stringify(obj);\n}\n\nlet output = null;\nconst cleaned = lower.replace(/[\\s!.,?]+$/g, \u0027\u0027);\n\n// 1. GREETINGS\nconst greetings = [\n  \u0027привет\u0027, \u0027здравствуйте\u0027, \u0027здравствуй\u0027,\n  \u0027добрый день\u0027, \u0027добрый\u0027, \u0027доброе утро\u0027, \u0027добрый вечер\u0027,\n  \u0027доброго дня\u0027, \u0027доброго утра\u0027, \u0027доброго вечера\u0027,\n  \u0027hi\u0027, \u0027hello\u0027, \u0027hey\u0027, \u0027start\u0027,\n  \u0027старт\u0027, \u0027начать\u0027, \u0027хай\u0027, \u0027ку\u0027,\n  \u0027салам\u0027, \u0027сәлем\u0027, \u0027сәлеметсіз бе\u0027\n];\n\nif (greetings.includes(cleaned)) {\n  output = makeOutput(\n    \u0027Добро пожаловать в ресторан West and East🏩!\\n\\nЯ помогу вам с меню, заказом или бронированием столика.\\n\\nВыберите действие:\u0027,\n    MAIN_BUTTONS,\n    \u0027greeting\u0027\n  );\n}\n// 2. MENU - button OR text\nelse if (text.startsWith(\u0027[BUTTON:menu]\u0027) || cleaned === \u0027меню\u0027) {\n  output = makeOutput(\n    \u0027Полное меню ресторана West and East:\u0027,\n    [{ id: \u0027order\u0027, title: \u0027Заказать\u0027 }, { id: \u0027reserve\u0027, title: \u0027Забронировать\u0027 }],\n    \u0027menu\u0027,\n    MENU_IMAGE_URL\n  );\n}\n// 3. CANCEL\nelse if (text.startsWith(\u0027[BUTTON:cancel]\u0027)) {\n  output = makeOutput(\u0027Действие отменено. Чем могу помочь?\u0027, MAIN_BUTTONS, \u0027farewell\u0027);\n}\n// 4. HELP\nelse if (text.startsWith(\u0027[BUTTON:help]\u0027)) {\n  output = makeOutput(\n    \u0027Я умею:\\n- Показывать меню\\n- Принять заказ\\n- Забронировать столик\u0027,\n    MAIN_BUTTONS,\n    \u0027question\u0027\n  );\n}\n// 5. Everything else -\u003e AI Agent\n\nreturn [{\n  json: {\n    ...msg,\n    output: output,\n    has_static: output !== null\n  }\n}];"
+                                     },
+                      "id":  "a1000010-0000-0000-0000-000000000010",
+                      "name":  "Static Router",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       -1120,
+                                       336
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "conditions":  {
+                                                            "options":  {
+                                                                            "version":  3,
+                                                                            "leftValue":  "",
+                                                                            "caseSensitive":  true,
+                                                                            "typeValidation":  "strict"
+                                                                        },
+                                                            "conditions":  [
+                                                                               {
+                                                                                   "id":  "cond-static",
+                                                                                   "leftValue":  "={{ $json.has_static }}",
+                                                                                   "operator":  {
+                                                                                                    "type":  "boolean",
+                                                                                                    "operation":  "true",
+                                                                                                    "singleValue":  true
+                                                                                                }
+                                                                               }
+                                                                           ],
+                                                            "combinator":  "and"
+                                                        },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "a1000011-0000-0000-0000-000000000011",
+                      "name":  "IF Static",
+                      "type":  "n8n-nodes-base.if",
+                      "typeVersion":  2.3,
+                      "position":  [
+                                       -1056,
+                                       560
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "promptType":  "define",
+                                         "text":  "={{ $json.message_text }}\nCustomer: {{ $json.customer_name }} ({{ $json.customer_phone }})",
+                                         "options":  {
+                                                         "systemMessage":  "=Ты — ассистент ресторана West and East в WhatsApp. Отвечай ТОЛЬКО валидным JSON:\n{\"reply\":\"текст\",\"intent\":\"...\",\"buttons\":[...],\"save_data\":null}\n\nВозможные intent: greeting, menu, reservation, order, question, confirmation, farewell\nПравила кнопок: макс 3 кнопки, title макс 20 символов. Когда ждёшь текстовый ввод — buttons: [] (пустой массив).\n\n=== ПРОЦЕСС ЗАКАЗА ЕДЫ (intent: order) ===\n\nШАГ 1. Клиент назвал блюда.\n→ Найди цены в базе знаний.\n→ Клиент может заказать НЕСКОЛЬКО РАЗНЫХ блюд одновременно! Например: \"2 шашлыка из курицы и 2 из баранины\" — это ВАЛИДНЫЙ заказ из двух позиций. Прими ВСЕ позиции сразу.\n→ Если клиент указал и блюда И количество — переходи сразу к Шагу 2 с подтверждением.\n→ Если клиент назвал блюда БЕЗ количества — спроси количество для каждого блюда.\n→ Если неясно какой вариант блюда (например \"шашлык\" без уточнения) — спроси какой именно.\n→ buttons: []\n\nШАГ 2. Состав и количество известны.\n→ Подтверди ВЕСЬ состав заказа с ценами:\n  Пример: \"Ваш заказ:\\n- Шашлык из курицы x2 = 4980 ₸\\n- Шашлык из баранины x2 = 6380 ₸\\nИтого: 11360 ₸\"\n→ Спроси способ получения.\n→ buttons: [{\"id\":\"delivery\",\"title\":\"Доставка\"},{\"id\":\"takeout\",\"title\":\"Самовывоз\"}]\n\nШАГ 3. Выбран способ получения.\n→ Для доставки запроси: имя, телефон, адрес доставки.\n→ Для самовывоза запроси: имя, телефон.\n→ buttons: []\n\nШАГ 4. Клиент прислал данные (имя, телефон, адрес).\n→ ОБЯЗАТЕЛЬНО покажи ПОЛНУЮ СВОДКУ ЗАКАЗА:\n  - Состав заказа (все позиции с количеством)\n  - Итоговая сумма\n  - Способ получения\n  - Имя, телефон, адрес (для доставки)\n→ ОБЯЗАТЕЛЬНО кнопки: [{\"id\":\"confirm\",\"title\":\"Подтвердить\"},{\"id\":\"edit\",\"title\":\"Изменить\"},{\"id\":\"cancel\",\"title\":\"Отменить\"}]\n→ save_data: null (ещё НЕ сохранять!)\n\n⚠️ КРИТИЧЕСКИ ВАЖНО: НИКОГДА не пропускай Шаг 4! После получения данных клиента ВСЕГДА показывай сводку с кнопками Подтвердить/Изменить/Отменить. ЗАПРЕЩЕНО сразу подтверждать заказ!\n\nШАГ 5. [BUTTON:confirm] — Заказ подтверждён!\n→ reply: \"Спасибо! Ваш заказ оформлен...\"\n→ buttons: [{\"id\":\"menu\",\"title\":\"Меню\"},{\"id\":\"help\",\"title\":\"Помощь\"}]\n→ save_data: {\"type\":\"order\",\"order_type\":\"delivery/takeout\",\"items\":\"все позиции с количеством\",\"total\":\"сумма\",\"address\":\"адрес\",\"phone\":\"телефон\",\"name\":\"имя\",\"comment\":\"\"}\n\n[BUTTON:edit] → Спроси что изменить. buttons: []\n\n=== ПРОЦЕСС БРОНИРОВАНИЯ (intent: reservation) ===\n\nШАГ 1. Клиент хочет забронировать.\n→ Запроси ВСЕ ТРИ параметра: дату, время И количество гостей.\n→ Пример: \"На какую дату, время и сколько гостей вы хотите забронировать столик?\"\n→ buttons: []\n\nШАГ 2. Если клиент указал не все параметры — допроси недостающие.\n→ Например, если указал только дату — спроси время и количество гостей.\n→ Если указал дату и гостей — спроси время.\n→ ОБЯЗАТЕЛЬНО получи все три: дата + время + количество гостей.\n→ buttons: []\n\nШАГ 3. Все параметры брони получены.\n→ Запроси имя и телефон.\n→ buttons: []\n\nШАГ 4. Все данные получены.\n→ ОБЯЗАТЕЛЬНО покажи сводку брони (дата, время, гости, имя, телефон).\n→ buttons: [{\"id\":\"confirm\",\"title\":\"Подтвердить\"},{\"id\":\"edit\",\"title\":\"Изменить\"},{\"id\":\"cancel\",\"title\":\"Отменить\"}]\n→ save_data: null\n\nШАГ 5. [BUTTON:confirm] → Бронь подтверждена!\n→ buttons: [{\"id\":\"menu\",\"title\":\"Меню\"},{\"id\":\"help\",\"title\":\"Помощь\"}]\n→ save_data: {\"type\":\"reservation\",\"date\":\"ДД.ММ.ГГГГ\",\"time\":\"ЧЧ:ММ\",\"guests\":число,\"name\":\"имя\",\"phone\":\"телефон\",\"comment\":\"\"}\n\n=== ОБЩИЕ ПРАВИЛА ===\n\n- Если клиент пишет ЛЮБОЕ название еды — это ЗАКАЗ. Не спрашивай \"хотите заказать или забронировать\".\n- save_data заполняй ТОЛЬКО после [BUTTON:confirm].\n- Кнопки Подтвердить/Изменить/Отменить — ТОЛЬКО в сводке заказа/брони.\n- НЕ ПУТАЙ: еда = ЗАКАЗ (type:order). Столик/дата визита = БРОНЬ (type:reservation).\n- МЕНЮ: используй базу знаний, дай ссылку: https://drive.google.com/file/d/17ekxvezvIRGV-41gz4M3G5U401vy--Qn/view\n- Используй базу знаний для цен, меню, адреса, часов работы.\n- Будь кратким и дружелюбным."
+                                                     }
+                                     },
+                      "id":  "a1000003-0000-0000-0000-000000000003",
+                      "name":  "AI Agent",
+                      "type":  "@n8n/n8n-nodes-langchain.agent",
+                      "typeVersion":  3.1,
+                      "position":  [
+                                       -816,
+                                       16
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "model":  {
+                                                       "__rl":  true,
+                                                       "value":  "gpt-4.1-mini",
+                                                       "mode":  "list",
+                                                       "cachedResultName":  "gpt-4.1-mini"
+                                                   },
+                                         "builtInTools":  {
+
+                                                          },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "a1000004-0000-0000-0000-000000000004",
+                      "name":  "OpenAI Chat Model",
+                      "type":  "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+                      "typeVersion":  1.3,
+                      "position":  [
+                                       -944,
+                                       192
+                                   ],
+                      "credentials":  null
+                  },
+                  {
+                      "parameters":  {
+                                         "sessionIdType":  "customKey",
+                                         "sessionKey":  "={{ $json.customer_phone }}",
+                                         "contextWindowLength":  20
+                                     },
+                      "id":  "a1000005-0000-0000-0000-000000000005",
+                      "name":  "Window Memory",
+                      "type":  "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+                      "typeVersion":  1.3,
+                      "position":  [
+                                       -784,
+                                       320
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "mode":  "retrieve-as-tool",
+                                         "toolDescription":  "Restaurant knowledge base with menu, prices, hours, location info",
+                                         "pineconeIndex":  {
+                                                               "__rl":  true,
+                                                               "value":  "restaurant-bot3",
+                                                               "mode":  "list",
+                                                               "cachedResultName":  "restaurant-bot3"
+                                                           },
+                                         "options":  {
+                                                         "pineconeNamespace":  "restaurant_bot3"
+                                                     }
+                                     },
+                      "id":  "a1000006-0000-0000-0000-000000000006",
+                      "name":  "Pinecone Vector Store",
+                      "type":  "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+                      "typeVersion":  1.3,
+                      "position":  [
+                                       -608,
+                                       560
+                                   ],
+                      "credentials":  null
+                  },
+                  {
+                      "parameters":  {
+                                         "options":  {
+                                                         "dimensions":  512
+                                                     }
+                                     },
+                      "id":  "a1000007-0000-0000-0000-000000000007",
+                      "name":  "Embeddings OpenAI",
+                      "type":  "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+                      "typeVersion":  1.2,
+                      "position":  [
+                                       -608,
+                                       768
+                                   ],
+                      "credentials":  null
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const raw = $input.first().json.output;\nconst customerPhone = $(\u0027Extract Message\u0027).first().json.customer_phone;\nconst customerName = $(\u0027Extract Message\u0027).first().json.customer_name;\nconst phoneNumberId = $(\u0027Extract Message\u0027).first().json.phone_number_id;\n\nconst ALLOWED_RECIPIENT = \u0027YOUR_WHATSAPP_NUMBER\u0027;\n\nlet data;\ntry {\n  let str = typeof raw === \u0027string\u0027 ? raw : JSON.stringify(raw);\n  const jsonMatch = str.match(/\\{[\\s\\S]*\\}/);\n  if (jsonMatch) {\n    data = JSON.parse(jsonMatch[0]);\n  } else {\n    data = { reply: str, intent: \u0027general\u0027, buttons: [], save_data: null };\n  }\n  if (data.output \u0026\u0026 typeof data.output === \u0027object\u0027) {\n    data = data.output;\n  } else if (data.output \u0026\u0026 typeof data.output === \u0027string\u0027) {\n    try { data = JSON.parse(data.output); } catch(e) {}\n  }\n} catch(e) {\n  data = {\n    reply: String(raw || \u0027Извините, произошла ошибка.\u0027),\n    intent: \u0027general\u0027,\n    buttons: [],\n    save_data: null\n  };\n}\n\ndata.reply = data.reply || \u0027Чем могу помочь?\u0027;\ndata.intent = data.intent || \u0027general\u0027;\ndata.buttons = Array.isArray(data.buttons) ? data.buttons : [];\ndata.save_data = data.save_data || null;\n\nconst validButtons = data.buttons\n  .filter(b =\u003e b \u0026\u0026 b.id \u0026\u0026 b.title)\n  .slice(0, 3);\n\nconst baseFields = {\n  phone_number_id: phoneNumberId,\n  intent: data.intent,\n  save_data: data.save_data,\n  has_save_data: !!data.save_data,\n  customer_phone: customerPhone,\n  customer_name: customerName\n};\n\n// If image_url: single item with image payload + buttons stored separately\nif (data.image_url) {\n  const imagePayload = {\n    messaging_product: \u0027whatsapp\u0027,\n    to: ALLOWED_RECIPIENT,\n    type: \u0027image\u0027,\n    image: {\n      link: data.image_url,\n      caption: data.reply.substring(0, 1024)\n    }\n  };\n\n  let buttonsPayload = null;\n  if (validButtons.length \u003e 0) {\n    buttonsPayload = {\n      messaging_product: \u0027whatsapp\u0027,\n      to: ALLOWED_RECIPIENT,\n      type: \u0027interactive\u0027,\n      interactive: {\n        type: \u0027button\u0027,\n        body: { text: \u0027Выберите:\u0027 },\n        action: {\n          buttons: validButtons.map(b =\u003e ({\n            type: \u0027reply\u0027,\n            reply: {\n              id: String(b.id).substring(0, 256),\n              title: String(b.title).substring(0, 20)\n            }\n          }))\n        }\n      }\n    };\n  }\n\n  return [{\n    json: {\n      wa_payload: imagePayload,\n      wa_buttons_payload: buttonsPayload,\n      ...baseFields\n    }\n  }];\n}\n\n// Standard flow: text or interactive\nconst payload = {\n  messaging_product: \u0027whatsapp\u0027,\n  to: ALLOWED_RECIPIENT,\n};\n\nif (validButtons.length \u003e 0) {\n  payload.type = \u0027interactive\u0027;\n  payload.interactive = {\n    type: \u0027button\u0027,\n    body: { text: data.reply.substring(0, 1024) },\n    action: {\n      buttons: validButtons.map(b =\u003e ({\n        type: \u0027reply\u0027,\n        reply: {\n          id: String(b.id).substring(0, 256),\n          title: String(b.title).substring(0, 20)\n        }\n      }))\n    }\n  };\n} else {\n  payload.type = \u0027text\u0027;\n  payload.text = { body: data.reply.substring(0, 4096) };\n}\n\nreturn [{\n  json: {\n    wa_payload: payload,\n    wa_buttons_payload: null,\n    ...baseFields\n  }\n}];\n"
+                                     },
+                      "id":  "a1000008-0000-0000-0000-000000000008",
+                      "name":  "Parse Response",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       -208,
+                                       304
+                                   ],
+                      "alwaysOutputData":  true
+                  },
+                  {
+                      "parameters":  {
+                                         "method":  "POST",
+                                         "url":  "=https://graph.facebook.com/v21.0/{{ $json.phone_number_id }}/messages",
+                                         "authentication":  "predefinedCredentialType",
+                                         "nodeCredentialType":  "whatsAppApi",
+                                         "sendBody":  true,
+                                         "specifyBody":  "json",
+                                         "jsonBody":  "={{ JSON.stringify($json.wa_payload) }}",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "a1000009-0000-0000-0000-000000000009",
+                      "name":  "Send WhatsApp",
+                      "type":  "n8n-nodes-base.httpRequest",
+                      "typeVersion":  4.3,
+                      "position":  [
+                                       160,
+                                       208
+                                   ],
+                      "credentials":  null
+                  },
+                  {
+                      "parameters":  {
+                                         "operation":  "append",
+                                         "documentId":  {
+                                                            "__rl":  true,
+                                                            "value":  "YOUR_GOOGLE_SHEETS_ID",
+                                                            "mode":  "list",
+                                                            "cachedResultName":  "CRM"
+                                                        },
+                                         "sheetName":  {
+                                                           "__rl":  true,
+                                                           "value":  2070949257,
+                                                           "mode":  "list",
+                                                           "cachedResultName":  "Клиенты",
+                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEETS_ID/edit#gid=2070949257"
+                                                       },
+                                         "columns":  {
+                                                         "mappingMode":  "defineBelow",
+                                                         "value":  {
+                                                                       "Дата_создания":  "={{ $now.format(\u0027dd.MM.yyyy HH:mm\u0027) }}",
+                                                                       "Канал":  "whatsapp",
+                                                                       "ID_клиента":  "={{ $json.customer_phone }}",
+                                                                       "Имя_клиента":  "={{ $json.customer_name }}",
+                                                                       "Телефон":  "={{ $json.customer_phone }}"
+                                                                   },
+                                                         "matchingColumns":  [
+
+                                                                             ],
+                                                         "schema":  [
+                                                                        {
+                                                                            "id":  "Дата_создания",
+                                                                            "displayName":  "Дата_создания",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Канал",
+                                                                            "displayName":  "Канал",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "ID_клиента",
+                                                                            "displayName":  "ID_клиента",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Имя_клиента",
+                                                                            "displayName":  "Имя_клиента",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Телефон",
+                                                                            "displayName":  "Телефон",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Email",
+                                                                            "displayName":  "Email",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Последнее_сообщение",
+                                                                            "displayName":  "Последнее_сообщение",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "Последний_интент",
+                                                                            "displayName":  "Последний_интент",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "Последняя_активность",
+                                                                            "displayName":  "Последняя_активность",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "Теги",
+                                                                            "displayName":  "Теги",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true,
+                                                                            "removed":  false
+                                                                        }
+                                                                    ],
+                                                         "attemptToConvertTypes":  false,
+                                                         "convertFieldsToString":  false
+                                                     },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "a100000a-0000-0000-0000-00000000000a",
+                      "name":  "Save Customer",
+                      "type":  "n8n-nodes-base.googleSheets",
+                      "typeVersion":  4.7,
+                      "position":  [
+                                       208,
+                                       512
+                                   ],
+                      "credentials":  null
+                  },
+                  {
+                      "parameters":  {
+                                         "conditions":  {
+                                                            "options":  {
+                                                                            "version":  3,
+                                                                            "leftValue":  "",
+                                                                            "caseSensitive":  true,
+                                                                            "typeValidation":  "strict"
+                                                                        },
+                                                            "conditions":  [
+                                                                               {
+                                                                                   "id":  "cond-save-check",
+                                                                                   "leftValue":  "={{ $json.has_save_data }}",
+                                                                                   "operator":  {
+                                                                                                    "type":  "boolean",
+                                                                                                    "operation":  "true",
+                                                                                                    "singleValue":  true
+                                                                                                }
+                                                                               }
+                                                                           ],
+                                                            "combinator":  "and"
+                                                        },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "a100000b-0000-0000-0000-00000000000b",
+                      "name":  "Check Save Data",
+                      "type":  "n8n-nodes-base.if",
+                      "typeVersion":  2.3,
+                      "position":  [
+                                       608,
+                                       512
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "rules":  {
+                                                       "values":  [
+                                                                      {
+                                                                          "conditions":  {
+                                                                                             "options":  {
+                                                                                                             "caseSensitive":  true,
+                                                                                                             "leftValue":  "",
+                                                                                                             "typeValidation":  "strict",
+                                                                                                             "version":  3
+                                                                                                         },
+                                                                                             "conditions":  [
+                                                                                                                {
+                                                                                                                    "id":  "cond-reservation",
+                                                                                                                    "leftValue":  "={{ $json.save_data.type }}",
+                                                                                                                    "rightValue":  "reservation",
+                                                                                                                    "operator":  {
+                                                                                                                                     "type":  "string",
+                                                                                                                                     "operation":  "equals"
+                                                                                                                                 }
+                                                                                                                }
+                                                                                                            ],
+                                                                                             "combinator":  "and"
+                                                                                         },
+                                                                          "renameOutput":  true,
+                                                                          "outputKey":  "Reservation"
+                                                                      },
+                                                                      {
+                                                                          "conditions":  {
+                                                                                             "options":  {
+                                                                                                             "caseSensitive":  true,
+                                                                                                             "leftValue":  "",
+                                                                                                             "typeValidation":  "strict",
+                                                                                                             "version":  3
+                                                                                                         },
+                                                                                             "conditions":  [
+                                                                                                                {
+                                                                                                                    "id":  "cond-order",
+                                                                                                                    "leftValue":  "={{ $json.save_data.type }}",
+                                                                                                                    "rightValue":  "order",
+                                                                                                                    "operator":  {
+                                                                                                                                     "type":  "string",
+                                                                                                                                     "operation":  "equals"
+                                                                                                                                 }
+                                                                                                                }
+                                                                                                            ],
+                                                                                             "combinator":  "and"
+                                                                                         },
+                                                                          "renameOutput":  true,
+                                                                          "outputKey":  "Order"
+                                                                      }
+                                                                  ]
+                                                   },
+                                         "options":  {
+                                                         "fallbackOutput":  "extra"
+                                                     }
+                                     },
+                      "id":  "a100000c-0000-0000-0000-00000000000c",
+                      "name":  "Route by Type",
+                      "type":  "n8n-nodes-base.switch",
+                      "typeVersion":  3.4,
+                      "position":  [
+                                       912,
+                                       512
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "operation":  "append",
+                                         "documentId":  {
+                                                            "__rl":  true,
+                                                            "value":  "YOUR_GOOGLE_SHEETS_ID",
+                                                            "mode":  "list",
+                                                            "cachedResultName":  "CRM"
+                                                        },
+                                         "sheetName":  {
+                                                           "__rl":  true,
+                                                           "value":  "gid=0",
+                                                           "mode":  "list",
+                                                           "cachedResultName":  "Брони",
+                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEETS_ID/edit#gid=0"
+                                                       },
+                                         "columns":  {
+                                                         "mappingMode":  "defineBelow",
+                                                         "value":  {
+                                                                       "Дата_создания":  "={{ $now.format(\u0027dd.MM.yyyy HH:mm\u0027) }}",
+                                                                       "ID_клиента":  "={{ $json.customer_phone }}",
+                                                                       "Имя_клиента":  "={{ $json.customer_name }}",
+                                                                       "Телефон":  "={{ $json.save_data.phone }}",
+                                                                       "Дата_брони":  "={{ $json.save_data.date }}",
+                                                                       "Время_брони":  "={{ $json.save_data.time }}",
+                                                                       "Кол_гостей":  "={{ $json.save_data.guests }}",
+                                                                       "Комментарий":  "={{ $json.save_data.comment }}",
+                                                                       "Статус":  "Новая"
+                                                                   },
+                                                         "matchingColumns":  [
+
+                                                                             ],
+                                                         "schema":  [
+                                                                        {
+                                                                            "id":  "Дата_создания",
+                                                                            "displayName":  "Дата_создания",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "ID_клиента",
+                                                                            "displayName":  "ID_клиента",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Имя_клиента",
+                                                                            "displayName":  "Имя_клиента",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Телефон",
+                                                                            "displayName":  "Телефон",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Email",
+                                                                            "displayName":  "Email",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "Дата_брони",
+                                                                            "displayName":  "Дата_брони",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Время_брони",
+                                                                            "displayName":  "Время_брони",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Кол_гостей",
+                                                                            "displayName":  "Кол_гостей",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Комментарий",
+                                                                            "displayName":  "Комментарий",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Статус",
+                                                                            "displayName":  "Статус",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Результат_проверки_стола",
+                                                                            "displayName":  "Результат_проверки_стола",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "Кратко_по_диалогу",
+                                                                            "displayName":  "Кратко_по_диалогу",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true,
+                                                                            "removed":  false
+                                                                        }
+                                                                    ],
+                                                         "attemptToConvertTypes":  false,
+                                                         "convertFieldsToString":  false
+                                                     },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "a100000d-0000-0000-0000-00000000000d",
+                      "name":  "Save Reservation",
+                      "type":  "n8n-nodes-base.googleSheets",
+                      "typeVersion":  4.7,
+                      "position":  [
+                                       1200,
+                                       400
+                                   ],
+                      "credentials":  null
+                  },
+                  {
+                      "parameters":  {
+                                         "operation":  "append",
+                                         "documentId":  {
+                                                            "__rl":  true,
+                                                            "value":  "YOUR_GOOGLE_SHEETS_ID",
+                                                            "mode":  "list",
+                                                            "cachedResultName":  "CRM"
+                                                        },
+                                         "sheetName":  {
+                                                           "__rl":  true,
+                                                           "value":  2130491302,
+                                                           "mode":  "list",
+                                                           "cachedResultName":  "Заказы",
+                                                           "cachedResultUrl":  "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEETS_ID/edit#gid=2130491302"
+                                                       },
+                                         "columns":  {
+                                                         "mappingMode":  "defineBelow",
+                                                         "value":  {
+                                                                       "Дата_создания":  "={{ $now.format(\u0027dd.MM.yyyy HH:mm\u0027) }}",
+                                                                       "Тип_заказа":  "={{ $json.save_data.order_type }}",
+                                                                       "ID_клиента":  "={{ $json.customer_phone }}",
+                                                                       "Имя_клиента":  "={{ $json.customer_name }}",
+                                                                       "Телефон":  "={{ $json.save_data.phone }}",
+                                                                       "Состав_заказа":  "={{ $json.save_data.items }}",
+                                                                       "Сумма":  "={{ $json.save_data.total }}",
+                                                                       "Адрес_доставки":  "={{ $json.save_data.address }}",
+                                                                       "Статус":  "Новый",
+                                                                       "Комментарий":  "={{ $json.save_data.comment }}"
+                                                                   },
+                                                         "matchingColumns":  [
+
+                                                                             ],
+                                                         "schema":  [
+                                                                        {
+                                                                            "id":  "Дата_создания",
+                                                                            "displayName":  "Дата_создания",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Тип_заказа",
+                                                                            "displayName":  "Тип_заказа",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "ID_клиента",
+                                                                            "displayName":  "ID_клиента",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Имя_клиента",
+                                                                            "displayName":  "Имя_клиента",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Телефон",
+                                                                            "displayName":  "Телефон",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Email",
+                                                                            "displayName":  "Email",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "Состав_заказа",
+                                                                            "displayName":  "Состав_заказа",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Сумма",
+                                                                            "displayName":  "Сумма",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Адрес_доставки",
+                                                                            "displayName":  "Адрес_доставки",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Оплата",
+                                                                            "displayName":  "Оплата",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true,
+                                                                            "removed":  false
+                                                                        },
+                                                                        {
+                                                                            "id":  "Статус",
+                                                                            "displayName":  "Статус",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        },
+                                                                        {
+                                                                            "id":  "Комментарий",
+                                                                            "displayName":  "Комментарий",
+                                                                            "required":  false,
+                                                                            "defaultMatch":  false,
+                                                                            "display":  true,
+                                                                            "type":  "string",
+                                                                            "canBeUsedToMatch":  true
+                                                                        }
+                                                                    ],
+                                                         "attemptToConvertTypes":  false,
+                                                         "convertFieldsToString":  false
+                                                     },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "a100000e-0000-0000-0000-00000000000e",
+                      "name":  "Save Order",
+                      "type":  "n8n-nodes-base.googleSheets",
+                      "typeVersion":  4.7,
+                      "position":  [
+                                       1200,
+                                       608
+                                   ],
+                      "credentials":  null
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const parseResponse = $(\u0027Parse Response\u0027).first().json;\nconst buttonsPayload = parseResponse.wa_buttons_payload;\n\nif (!buttonsPayload) {\n  return [];\n}\n\n// Wait 4 seconds for WhatsApp to deliver the image\nawait new Promise(resolve =\u003e setTimeout(resolve, 4000));\n\nreturn [{\n  json: {\n    wa_payload: buttonsPayload,\n    phone_number_id: parseResponse.phone_number_id\n  }\n}];\n"
+                                     },
+                      "id":  "a1000020-0000-0000-0000-000000000020",
+                      "name":  "Delay Send Buttons",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       480,
+                                       208
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "method":  "POST",
+                                         "url":  "=https://graph.facebook.com/v21.0/{{ $json.phone_number_id }}/messages",
+                                         "authentication":  "predefinedCredentialType",
+                                         "nodeCredentialType":  "whatsAppApi",
+                                         "sendBody":  true,
+                                         "specifyBody":  "json",
+                                         "jsonBody":  "={{ JSON.stringify($json.wa_payload) }}",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "id":  "a1000021-0000-0000-0000-000000000021",
+                      "name":  "Send Menu Buttons",
+                      "type":  "n8n-nodes-base.httpRequest",
+                      "typeVersion":  4.3,
+                      "position":  [
+                                       784,
+                                       208
+                                   ],
+                      "credentials":  null
+                  }
+              ]
+}
